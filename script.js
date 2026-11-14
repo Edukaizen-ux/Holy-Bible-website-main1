@@ -1,7 +1,12 @@
 
 /* =========================================
    HOLY BIBLE | WEBSITE FUNCTIONALITY
+   Updated with FULL BIBLE KEYWORD SEARCH
 ========================================= */
+
+// =========================================
+// 1. BIBLE BOOKS
+// =========================================
 
 const oldTestamentBooks = [
   ["Genesis",50],["Exodus",40],["Leviticus",27],
@@ -16,7 +21,9 @@ const oldTestamentBooks = [
   ["Hosea",14],["Joel",3],["Amos",9],["Obadiah",1],
   ["Jonah",4],["Micah",7],["Nahum",3],["Habakkuk",3],
   ["Zephaniah",3],["Haggai",2],["Zechariah",14],["Malachi",4]
-].map(([name, chapters]) => ({name, chapters, testament:"old"}));
+].map(([name, chapters]) => ({
+  name, chapters, testament:"old"
+}));
 
 const newTestamentBooks = [
   ["Matthew",28],["Mark",16],["Luke",24],["John",21],
@@ -27,74 +34,82 @@ const newTestamentBooks = [
   ["Titus",3],["Philemon",1],["Hebrews",13],["James",5],
   ["1 Peter",5],["2 Peter",3],["1 John",5],["2 John",1],
   ["3 John",1],["Jude",1],["Revelation",22]
-].map(([name, chapters]) => ({name, chapters, testament:"new"}));
+].map(([name, chapters]) => ({
+  name, chapters, testament:"new"
+}));
 
 const allBooks = [...oldTestamentBooks, ...newTestamentBooks];
 
+// =========================================
+// 2. DAILY VERSES
+// =========================================
+
 const dailyVerses = [
   {
-    text: "Trust in the LORD with all thine heart; and lean not unto thine own understanding.",
-    reference: "Proverbs 3:5",
-    message: "You do not need to understand every step. Trust God as you move forward."
+    text:"Trust in the LORD with all thine heart; and lean not unto thine own understanding.",
+    reference:"Proverbs 3:5",
+    message:"You do not need to understand every step. Trust God as you move forward."
   },
   {
-    text: "I can do all things through Christ which strengtheneth me.",
-    reference: "Philippians 4:13",
-    message: "When life feels difficult, remember that you can seek strength through Christ."
+    text:"I can do all things through Christ which strengtheneth me.",
+    reference:"Philippians 4:13",
+    message:"When life feels difficult, remember that you can seek strength through Christ."
   },
   {
-    text: "Be strong and of a good courage; be not afraid, neither be thou dismayed: for the LORD thy God is with thee whithersoever thou goest.",
-    reference: "Joshua 1:9",
-    message: "Face today's challenges with courage. You are not walking through them alone."
+    text:"Be strong and of a good courage; be not afraid, neither be thou dismayed: for the LORD thy God is with thee whithersoever thou goest.",
+    reference:"Joshua 1:9",
+    message:"Face today's challenges with courage. You are not walking through them alone."
   },
   {
-    text: "The LORD is my shepherd; I shall not want.",
-    reference: "Psalm 23:1",
-    message: "Let this reminder bring peace when you feel uncertain about tomorrow."
+    text:"The LORD is my shepherd; I shall not want.",
+    reference:"Psalm 23:1",
+    message:"Let this reminder bring peace when you feel uncertain about tomorrow."
   },
   {
-    text: "Fear thou not; for I am with thee: be not dismayed; for I am thy God: I will strengthen thee.",
-    reference: "Isaiah 41:10",
-    message: "Take things one day at a time. You can bring your worries to God."
+    text:"Fear thou not; for I am with thee: be not dismayed: for I am thy God: I will strengthen thee.",
+    reference:"Isaiah 41:10",
+    message:"Take things one day at a time. You can bring your worries to God."
   },
   {
-    text: "This is the day which the LORD hath made; we will rejoice and be glad in it.",
-    reference: "Psalm 118:24",
-    message: "Look for one good thing today, even if life is not perfect."
+    text:"This is the day which the LORD hath made; we will rejoice and be glad in it.",
+    reference:"Psalm 118:24",
+    message:"Look for one good thing today, even if life is not perfect."
   },
   {
-    text: "But they that wait upon the LORD shall renew their strength; they shall mount up with wings as eagles.",
-    reference: "Isaiah 40:31",
-    message: "Rest is not failure. Give yourself time to grow, recover, and begin again."
+    text:"But they that wait upon the LORD shall renew their strength; they shall mount up with wings as eagles.",
+    reference:"Isaiah 40:31",
+    message:"Rest is not failure. Give yourself time to grow, recover, and begin again."
   },
   {
-    text: "And we know that all things work together for good to them that love God.",
-    reference: "Romans 8:28",
-    message: "Your current situation is not necessarily the end of your story."
+    text:"And we know that all things work together for good to them that love God.",
+    reference:"Romans 8:28",
+    message:"Your current situation is not necessarily the end of your story."
   },
   {
-    text: "Cast thy burden upon the LORD, and he shall sustain thee.",
-    reference: "Psalm 55:22",
-    message: "You do not have to carry every burden by yourself."
+    text:"Cast thy burden upon the LORD, and he shall sustain thee.",
+    reference:"Psalm 55:22",
+    message:"You do not have to carry every burden by yourself."
   },
   {
-    text: "Let all your things be done with charity.",
-    reference: "1 Corinthians 16:14",
-    message: "Let kindness guide the way you speak, work, and treat other people."
+    text:"Let all your things be done with charity.",
+    reference:"1 Corinthians 16:14",
+    message:"Let kindness guide the way you speak, work, and treat other people."
   },
   {
-    text: "The LORD is good, a strong hold in the day of trouble; and he knoweth them that trust in him.",
-    reference: "Nahum 1:7",
-    message: "Remember that difficult days do not erase the possibility of hope."
+    text:"The LORD is good, a strong hold in the day of trouble; and he knoweth them that trust in him.",
+    reference:"Nahum 1:7",
+    message:"Remember that difficult days do not erase the possibility of hope."
   },
   {
-    text: "Commit thy works unto the LORD, and thy thoughts shall be established.",
-    reference: "Proverbs 16:3",
-    message: "Do your best today, dedicate your work to God, and take the next step."
+    text:"Commit thy works unto the LORD, and thy thoughts shall be established.",
+    reference:"Proverbs 16:3",
+    message:"Do your best today, dedicate your work to God, and take the next step."
   }
 ];
 
-// ELEMENTS
+// =========================================
+// 3. ELEMENTS AND VARIABLES
+// =========================================
 
 const $ = id => document.getElementById(id);
 
@@ -113,11 +128,25 @@ let currentVerses = [];
 let requestNumber = 0;
 let toastTimer;
 
-const readChapters = loadStorage("holyBibleReadChapters", []);
-let favorites = loadStorage("holyBibleFavorites", []);
+// Search pagination
+let currentSearchQuery = "";
+let currentSearchOffset = 0;
+let currentSearchTotal = 0;
+let searchRequestNumber = 0;
 
+const SEARCH_LIMIT = 50;
 
-// SAFE LOCAL STORAGE
+const readChapters = loadStorage(
+  "holyBibleReadChapters", []
+);
+
+let favorites = loadStorage(
+  "holyBibleFavorites", []
+);
+
+// =========================================
+// 4. LOCAL STORAGE
+// =========================================
 
 function loadStorage(key, fallback) {
   try {
@@ -136,8 +165,9 @@ function saveStorage(key, value) {
   }
 }
 
-
-// NOTIFICATIONS
+// =========================================
+// 5. NOTIFICATIONS
+// =========================================
 
 function showToast(message) {
   const toast = $("toast");
@@ -152,8 +182,9 @@ function showToast(message) {
   }, 2600);
 }
 
-
-// DAILY VERSE
+// =========================================
+// 6. DAILY VERSE
+// =========================================
 
 function displayVerse(verse) {
   $("dailyVerse").textContent = verse.text;
@@ -166,28 +197,33 @@ function displayVerse(verse) {
 }
 
 function getDailyVerse() {
-  // Keep the same featured verse throughout the local calendar day.
   const now = new Date();
+
   const dayNumber = Math.floor(
-    new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime()
-    / 86400000
+    new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate()
+    ).getTime() / 86400000
   );
 
   return dailyVerses[
-    ((dayNumber % dailyVerses.length) + dailyVerses.length)
-    % dailyVerses.length
+    ((dayNumber % dailyVerses.length) +
+      dailyVerses.length) % dailyVerses.length
   ];
 }
 
 function updateDateLabel() {
-  $("todayLabel").textContent = new Intl.DateTimeFormat(
-    undefined,
-    {month:"long", day:"numeric", year:"numeric"}
-  ).format(new Date());
+  $("todayLabel").textContent =
+    new Intl.DateTimeFormat(
+      undefined,
+      {month:"long", day:"numeric", year:"numeric"}
+    ).format(new Date());
 }
 
 function randomVerse() {
-  const currentReference = $("dailyReference").textContent;
+  const currentReference =
+    $("dailyReference").textContent;
 
   let choices = dailyVerses.filter(
     verse => verse.reference !== currentReference
@@ -195,16 +231,22 @@ function randomVerse() {
 
   if (!choices.length) choices = dailyVerses;
 
-  const verse = choices[Math.floor(Math.random() * choices.length)];
+  const verse = choices[
+    Math.floor(Math.random() * choices.length)
+  ];
 
   displayVerse(verse);
 }
 
-$("newVerseButton").addEventListener("click", randomVerse);
+$("newVerseButton").addEventListener(
+  "click", randomVerse
+);
+
 $("heroVerseButton").addEventListener("click", () => {
   randomVerse();
   $("daily").scrollIntoView({behavior:"smooth"});
 });
+
 $("encouragementButton").addEventListener("click", () => {
   randomVerse();
   $("daily").scrollIntoView({behavior:"smooth"});
@@ -218,13 +260,14 @@ $("copyDailyButton").addEventListener("click", () => {
 
 $("saveDailyButton").addEventListener("click", () => {
   saveFavorite({
-    reference: $("dailyReference").textContent,
-    text: $("dailyVerse").textContent
+    reference:$("dailyReference").textContent,
+    text:$("dailyVerse").textContent
   });
 });
 
-
-// COPY TEXT
+// =========================================
+// 7. COPY TEXT
+// =========================================
 
 async function copyText(text) {
   try {
@@ -232,6 +275,7 @@ async function copyText(text) {
       await navigator.clipboard.writeText(text);
     } else {
       const textarea = document.createElement("textarea");
+
       textarea.value = text;
       textarea.style.position = "fixed";
       textarea.style.opacity = "0";
@@ -246,13 +290,17 @@ async function copyText(text) {
     }
 
     showToast("Verse copied to clipboard!");
+
   } catch {
-    showToast("Copy unavailable. Please select and copy the text.");
+    showToast(
+      "Copy unavailable. Please select and copy the text."
+    );
   }
 }
 
-
-// BOOK SIDEBAR
+// =========================================
+// 8. BOOK SIDEBAR
+// =========================================
 
 function renderBooks() {
   booksContent.replaceChildren();
@@ -261,9 +309,11 @@ function renderBooks() {
 
   const books = allBooks.filter(book => {
     const matchesFilter =
-      activeFilter === "all" || book.testament === activeFilter;
+      activeFilter === "all" ||
+      book.testament === activeFilter;
 
-    const matchesSearch = book.name.toLowerCase().includes(query);
+    const matchesSearch =
+      book.name.toLowerCase().includes(query);
 
     return matchesFilter && matchesSearch;
   });
@@ -272,6 +322,7 @@ function renderBooks() {
     const message = document.createElement("p");
     message.className = "search-status";
     message.textContent = "No books found.";
+
     booksContent.appendChild(message);
     return;
   }
@@ -302,6 +353,7 @@ function renderBooks() {
 
       button.type = "button";
       button.className = "book-button";
+
       button.classList.toggle(
         "selected",
         activeBook?.name === book.name
@@ -349,14 +401,16 @@ document.querySelectorAll(".filter-button").forEach(button => {
   });
 });
 
-
-// SELECT BOOK AND CHAPTER
+// =========================================
+// 9. SELECT BOOK AND CHAPTER
+// =========================================
 
 async function selectBook(book, chapter = 1, scroll = false) {
   activeBook = book;
   currentChapter = chapter;
 
   $("selectedBook").textContent = book.name;
+
   $("readerSubheading").textContent =
     `${book.testament === "old" ? "Old Testament" : "New Testament"} · ${book.chapters} chapters`;
 
@@ -393,12 +447,16 @@ chapterSelect.addEventListener("change", () => {
 });
 
 $("startGenesisButton").addEventListener("click", () => {
-  const genesis = allBooks.find(book => book.name === "Genesis");
+  const genesis = allBooks.find(
+    book => book.name === "Genesis"
+  );
+
   selectBook(genesis, 1, false);
 });
 
-
-// LOAD SCRIPTURE FROM BIBLE-API.COM
+// =========================================
+// 10. LOAD SCRIPTURE FROM BIBLE-API.COM
+// =========================================
 
 async function fetchPassage(reference) {
   const url =
@@ -414,7 +472,7 @@ async function fetchPassage(reference) {
 
   const data = await response.json();
 
-  if (!Array.isArray(data.verses) || data.verses.length === 0) {
+  if (!Array.isArray(data.verses) || !data.verses.length) {
     throw new Error("No verses found.");
   }
 
@@ -437,9 +495,7 @@ async function loadChapter(chapter) {
 
   readerContent.appendChild(loading);
 
-  $("previousChapter").disabled =
-    chapter <= 1;
-
+  $("previousChapter").disabled = chapter <= 1;
   $("nextChapter").disabled =
     chapter >= activeBook.chapters;
 
@@ -451,10 +507,10 @@ async function loadChapter(chapter) {
     if (thisRequest !== requestNumber) return;
 
     currentVerses = data.verses.map(verse => ({
-      book: activeBook.name,
+      book:activeBook.name,
       chapter,
-      verse: verse.verse,
-      text: verse.text.trim()
+      verse:verse.verse,
+      text:verse.text.trim()
     }));
 
     renderVerses(currentVerses);
@@ -463,7 +519,11 @@ async function loadChapter(chapter) {
 
     if (!readChapters.includes(key)) {
       readChapters.push(key);
-      saveStorage("holyBibleReadChapters", readChapters);
+
+      saveStorage(
+        "holyBibleReadChapters",
+        readChapters
+      );
     }
 
     updateProgress();
@@ -478,6 +538,7 @@ async function loadChapter(chapter) {
 
     const message = document.createElement("p");
     message.className = "search-status";
+
     message.textContent =
       "Could not load this chapter. Check your internet connection and try again.";
 
@@ -487,8 +548,9 @@ async function loadChapter(chapter) {
   }
 }
 
-
-// RENDER VERSES WITH FAVORITE AND COPY BUTTONS
+// =========================================
+// 11. RENDER BIBLE VERSES
+// =========================================
 
 function renderVerses(verses) {
   readerContent.replaceChildren();
@@ -511,7 +573,9 @@ function renderVerses(verses) {
     number.textContent = verse.verse;
 
     paragraph.appendChild(number);
-    paragraph.appendChild(document.createTextNode(verse.text));
+    paragraph.appendChild(
+      document.createTextNode(verse.text)
+    );
 
     const tools = document.createElement("span");
     tools.className = "verse-tools";
@@ -519,21 +583,28 @@ function renderVerses(verses) {
     const copyButton = document.createElement("button");
     copyButton.type = "button";
     copyButton.textContent = "Copy";
-    copyButton.setAttribute("aria-label", `Copy ${verse.book} ${verse.chapter}:${verse.verse}`);
+
+    const reference =
+      `${verse.book} ${verse.chapter}:${verse.verse}`;
+
+    copyButton.setAttribute(
+      "aria-label",
+      `Copy ${reference}`
+    );
 
     copyButton.addEventListener("click", () => {
-      copyText(
-        `${verse.text} — ${verse.book} ${verse.chapter}:${verse.verse}`
-      );
+      copyText(`${verse.text} — ${reference}`);
     });
 
     const favoriteButton = document.createElement("button");
     favoriteButton.type = "button";
 
-    const reference = `${verse.book} ${verse.chapter}:${verse.verse}`;
-    const saved = favorites.some(item => item.reference === reference);
+    const saved = favorites.some(
+      item => item.reference === reference
+    );
 
-    favoriteButton.textContent = saved ? "♥ Saved" : "♡ Save";
+    favoriteButton.textContent =
+      saved ? "♥ Saved" : "♡ Save";
 
     favoriteButton.setAttribute(
       "aria-label",
@@ -543,7 +614,7 @@ function renderVerses(verses) {
     favoriteButton.addEventListener("click", () => {
       saveFavorite({
         reference,
-        text: verse.text
+        text:verse.text
       });
 
       renderVerses(currentVerses);
@@ -556,17 +627,22 @@ function renderVerses(verses) {
   });
 }
 
-
-// READING PROGRESS
+// =========================================
+// 12. READING PROGRESS
+// =========================================
 
 function updateProgress() {
   const completed = readChapters.length;
+
   const total = allBooks.reduce(
     (sum, book) => sum + book.chapters,
     0
   );
 
-  const percent = Math.min(100, (completed / total) * 100);
+  const percent = Math.min(
+    100,
+    (completed / total) * 100
+  );
 
   $("progressBar").style.width = `${percent}%`;
 
@@ -574,8 +650,9 @@ function updateProgress() {
     `${completed} chapter${completed === 1 ? "" : "s"} read`;
 }
 
-
-// CHAPTER NAVIGATION
+// =========================================
+// 13. CHAPTER NAVIGATION
+// =========================================
 
 $("previousChapter").addEventListener("click", () => {
   if (!activeBook || currentChapter <= 1) return;
@@ -584,13 +661,202 @@ $("previousChapter").addEventListener("click", () => {
 });
 
 $("nextChapter").addEventListener("click", () => {
-  if (!activeBook || currentChapter >= activeBook.chapters) return;
+  if (
+    !activeBook ||
+    currentChapter >= activeBook.chapters
+  ) return;
 
   loadChapter(currentChapter + 1);
 });
 
+// =========================================
+// 14. FULL BIBLE SEARCH ENGINE
+// =========================================
 
-// BIBLE SEARCH ENGINE
+async function searchEntireBible(query, offset = 0) {
+  const url = new URL(
+    "https://search.getbible.net/v3/kjv"
+  );
+
+  url.searchParams.set("q", query);
+  url.searchParams.set("limit", String(SEARCH_LIMIT));
+  url.searchParams.set("offset", String(offset));
+  url.searchParams.set("match", "substring");
+  url.searchParams.set("words", "all");
+  url.searchParams.set("scope", "bible");
+  url.searchParams.set("sort", "canonical");
+
+  const response = await fetch(url);
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(
+      data.detail || "Bible search is currently unavailable."
+    );
+  }
+
+  return data;
+}
+
+function getBookNameFromNumber(bookNumber) {
+  // Standard GetBible numbering for the 66-book KJV.
+  const book = allBooks[bookNumber - 1];
+
+  return book ? book.name : null;
+}
+
+function createSearchResultCard(verse) {
+  const card = document.createElement("article");
+  card.className = "search-result";
+
+  const reference = document.createElement("div");
+  reference.className = "result-reference";
+
+  reference.textContent =
+    `${verse.book} ${verse.chapter}:${verse.verse}`;
+
+  const text = document.createElement("p");
+  text.textContent = verse.text;
+
+  const openButton = document.createElement("button");
+  openButton.type = "button";
+  openButton.textContent = "Read this verse →";
+
+  openButton.addEventListener("click", async () => {
+    const book = allBooks.find(
+      item =>
+        item.name.toLowerCase() ===
+        verse.book.toLowerCase()
+    );
+
+    if (!book) {
+      showToast("Bible book not found.");
+      return;
+    }
+
+    await selectBook(book, verse.chapter, true);
+
+    const paragraph = [
+      ...readerContent.querySelectorAll(".verse")
+    ].find(item =>
+      item.querySelector(".verse-number")?.textContent ===
+      String(verse.verse)
+    );
+
+    if (paragraph) {
+      paragraph.style.background = "#edf1e9";
+
+      paragraph.scrollIntoView({
+        behavior:"smooth",
+        block:"center"
+      });
+    }
+  });
+
+  card.append(reference, text, openButton);
+
+  return card;
+}
+
+function displayKeywordResults(data, append = false) {
+  const results = data.results || {};
+  const matches = data.matches || [];
+
+  // Build a lookup of verse text using book, chapter and verse.
+  const verseLookup = new Map();
+
+  Object.values(results).forEach(chapterData => {
+    const bookName =
+      chapterData.book_name ||
+      chapterData.name ||
+      getBookNameFromNumber(chapterData.book_nr);
+
+    if (!bookName) return;
+
+    (chapterData.verses || []).forEach(verse => {
+      const key =
+        `${chapterData.book_nr}|${chapterData.chapter}|${verse.verse}`;
+
+      verseLookup.set(key, {
+        book:bookName,
+        chapter:Number(chapterData.chapter),
+        verse:Number(verse.verse),
+        text:verse.text
+      });
+    });
+  });
+
+  const heading = document.createElement("p");
+  heading.className = "search-status";
+
+  currentSearchTotal =
+    Number(data.query?.total ?? matches.length);
+
+  heading.textContent =
+    `${currentSearchTotal} matching verses found throughout the Bible.`;
+
+  if (!append) {
+    searchResults.replaceChildren();
+    searchResults.appendChild(heading);
+  }
+
+  matches.forEach(match => {
+    const key =
+      `${match.book_nr}|${match.chapter}|${match.verse}`;
+
+    const verse = verseLookup.get(key);
+
+    if (!verse) return;
+
+    searchResults.appendChild(
+      createSearchResultCard(verse)
+    );
+  });
+
+  if (matches.length === 0 && !append) {
+    showSearchMessage(
+      `No matching verses found for "${currentSearchQuery}". Try another word.`
+    );
+    return;
+  }
+
+  const oldButton = $("loadMoreSearchResults");
+  if (oldButton) oldButton.remove();
+
+  const nextOffset = currentSearchOffset + matches.length;
+
+  if (
+    data.query?.has_more &&
+    nextOffset < currentSearchTotal
+  ) {
+    const moreButton = document.createElement("button");
+
+    moreButton.id = "loadMoreSearchResults";
+    moreButton.type = "button";
+    moreButton.className = "btn btn-secondary";
+    moreButton.textContent = "Load More Results";
+
+    moreButton.addEventListener("click", () => {
+      loadMoreSearchResults();
+    });
+
+    searchResults.appendChild(moreButton);
+  }
+
+  const status = document.createElement("p");
+  status.className = "search-status";
+
+  const displayed = Math.min(
+    nextOffset,
+    currentSearchTotal
+  );
+
+  status.textContent =
+    `Showing ${displayed} of ${currentSearchTotal} results.`;
+
+  searchResults.appendChild(status);
+}
 
 $("searchForm").addEventListener("submit", async event => {
   event.preventDefault();
@@ -599,19 +865,21 @@ $("searchForm").addEventListener("submit", async event => {
 
   if (!query) return;
 
+  currentSearchQuery = query;
+  currentSearchOffset = 0;
+  currentSearchTotal = 0;
+
+  const thisSearch = ++searchRequestNumber;
+
   searchResults.replaceChildren();
 
   const status = document.createElement("p");
   status.className = "search-status";
-  status.textContent = "Searching Scripture...";
+  status.textContent = "Searching the entire Bible...";
 
   searchResults.appendChild(status);
 
-  // Reference search examples:
-  // John 3:16
-  // Psalm 23
-  // 1 John 4:7-8
-
+  // Check whether the user entered a Bible reference.
   const looksLikeReference =
     /^(?:\d\s*)?[a-z][a-z\s]*\s+\d+(?::\d+(?:-\d+)?)?$/i
       .test(query);
@@ -619,6 +887,8 @@ $("searchForm").addEventListener("submit", async event => {
   if (looksLikeReference) {
     try {
       const data = await fetchPassage(query);
+
+      if (thisSearch !== searchRequestNumber) return;
 
       searchResults.replaceChildren();
 
@@ -640,14 +910,21 @@ $("searchForm").addEventListener("submit", async event => {
         const firstVerse = data.verses[0];
 
         const book = allBooks.find(
-          item => item.name.toLowerCase() ===
+          item =>
+            item.name.toLowerCase() ===
             firstVerse.book_name.toLowerCase()
         );
 
         if (book) {
-          await selectBook(book, Number(firstVerse.chapter), true);
+          await selectBook(
+            book,
+            Number(firstVerse.chapter),
+            true
+          );
         } else {
-          showToast("This book is not in the available book list.");
+          showToast(
+            "This book is not in the available book list."
+          );
         }
       });
 
@@ -655,84 +932,80 @@ $("searchForm").addEventListener("submit", async event => {
       searchResults.appendChild(card);
 
     } catch {
+      if (thisSearch !== searchRequestNumber) return;
+
       showSearchMessage(
-        "Passage not found. Try a reference such as John 3:16 or Psalm 23."
+        "Passage not found. Try John 3:16 or Psalm 23."
       );
     }
 
     return;
   }
 
-  // Keyword searches scan the currently loaded chapter.
-  const words = query.toLowerCase().split(/\s+/);
+  try {
+    const data = await searchEntireBible(query, 0);
 
-  const matches = currentVerses.filter(verse => {
-    const text = verse.text.toLowerCase();
-    return words.every(word => text.includes(word));
-  });
+    if (thisSearch !== searchRequestNumber) return;
 
-  searchResults.replaceChildren();
+    currentSearchOffset = 0;
 
-  if (!currentVerses.length) {
+    displayKeywordResults(data);
+
+  } catch (error) {
+    if (thisSearch !== searchRequestNumber) return;
+
+    console.error("Bible search error:", error);
+
     showSearchMessage(
-      "Open a Bible chapter first to search its words, or enter a Bible reference above."
+      error.message ||
+      "Unable to search the Bible. Check your internet connection and try again."
     );
-    return;
   }
-
-  if (!matches.length) {
-    showSearchMessage(
-      `No matching verses were found for "${query}" in ${activeBook.name} ${currentChapter}. Try another word or open a different chapter.`
-    );
-    return;
-  }
-
-  const heading = document.createElement("p");
-  heading.className = "search-status";
-  heading.textContent =
-    `${matches.length} result${matches.length === 1 ? "" : "s"} in ${activeBook.name} ${currentChapter}`;
-
-  searchResults.appendChild(heading);
-
-  matches.forEach(verse => {
-    const card = document.createElement("article");
-    card.className = "search-result";
-
-    const reference = document.createElement("div");
-    reference.className = "result-reference";
-    reference.textContent =
-      `${verse.book} ${verse.chapter}:${verse.verse}`;
-
-    const text = document.createElement("p");
-    text.textContent = verse.text;
-
-    const openButton = document.createElement("button");
-    openButton.type = "button";
-    openButton.textContent = "Show verse in reader ↓";
-
-    openButton.addEventListener("click", () => {
-      readerContent.querySelectorAll(".verse").forEach(paragraph => {
-        paragraph.style.background = "";
-      });
-
-      const paragraph = [...readerContent.querySelectorAll(".verse")]
-        .find(item =>
-          item.querySelector(".verse-number")?.textContent ===
-          String(verse.verse)
-        );
-
-      if (paragraph) {
-        paragraph.style.background = "#edf1e9";
-        paragraph.scrollIntoView({behavior:"smooth", block:"center"});
-      }
-
-      readerCard.scrollIntoView({behavior:"smooth", block:"start"});
-    });
-
-    card.append(reference, text, openButton);
-    searchResults.appendChild(card);
-  });
 });
+
+// =========================================
+// 15. LOAD MORE SEARCH RESULTS
+// =========================================
+
+async function loadMoreSearchResults() {
+  const button = $("loadMoreSearchResults");
+
+  if (button) {
+    button.disabled = true;
+    button.textContent = "Loading...";
+  }
+
+  const thisSearch = searchRequestNumber;
+
+  try {
+    const nextOffset = currentSearchOffset + SEARCH_LIMIT;
+
+    const data = await searchEntireBible(
+      currentSearchQuery,
+      nextOffset
+    );
+
+    if (thisSearch !== searchRequestNumber) return;
+
+    currentSearchOffset = nextOffset;
+
+    displayKeywordResults(data, true);
+
+  } catch (error) {
+    console.error("Load more error:", error);
+
+    if (button) {
+      button.disabled = false;
+      button.textContent = "Try Again";
+    }
+
+    showToast("Could not load more results.");
+  }
+}
+
+// =========================================
+// 16. SEARCH MESSAGE
+// =========================================
 
 function showSearchMessage(message) {
   searchResults.replaceChildren();
@@ -744,8 +1017,9 @@ function showSearchMessage(message) {
   searchResults.appendChild(paragraph);
 }
 
-
-// FAVORITES
+// =========================================
+// 17. FAVORITES
+// =========================================
 
 function saveFavorite(verse) {
   const existing = favorites.findIndex(
@@ -764,12 +1038,13 @@ function saveFavorite(verse) {
 
   renderFavorites();
 
-  const dailyReference = $("dailyReference").textContent;
+  const dailyReference =
+    $("dailyReference").textContent;
 
   $("saveDailyButton").textContent =
-    favorites.some(item => item.reference === dailyReference)
-      ? "♥"
-      : "♡";
+    favorites.some(
+      item => item.reference === dailyReference
+    ) ? "♥" : "♡";
 
   if (currentVerses.length) {
     renderVerses(currentVerses);
@@ -800,6 +1075,7 @@ function renderFavorites() {
 
     empty.append(icon, title, description);
     grid.appendChild(empty);
+
     return;
   }
 
@@ -835,12 +1111,15 @@ function renderFavorites() {
       );
 
       saveStorage("holyBibleFavorites", favorites);
+
       renderFavorites();
       renderVerses(currentVerses);
 
       $("saveDailyButton").textContent =
         favorites.some(
-          item => item.reference === $("dailyReference").textContent
+          item =>
+            item.reference ===
+            $("dailyReference").textContent
         ) ? "♥" : "♡";
 
       showToast("Favorite removed.");
@@ -853,22 +1132,32 @@ function renderFavorites() {
   });
 }
 
-
-// MOBILE NAVIGATION
+// =========================================
+// 18. MOBILE NAVIGATION
+// =========================================
 
 $("menuToggle").addEventListener("click", () => {
   const nav = document.querySelector(".top-nav");
   const isOpen = nav.classList.toggle("open");
 
-  $("menuToggle").setAttribute("aria-expanded", String(isOpen));
-  $("menuToggle").textContent = isOpen ? "✕" : "☰";
+  $("menuToggle").setAttribute(
+    "aria-expanded",
+    String(isOpen)
+  );
+
+  $("menuToggle").textContent =
+    isOpen ? "✕" : "☰";
 });
 
 document.querySelectorAll(".nav-link").forEach(link => {
   link.addEventListener("click", () => {
     document.querySelector(".top-nav").classList.remove("open");
 
-    $("menuToggle").setAttribute("aria-expanded", "false");
+    $("menuToggle").setAttribute(
+      "aria-expanded",
+      "false"
+    );
+
     $("menuToggle").textContent = "☰";
 
     document.querySelectorAll(".nav-link").forEach(item => {
@@ -877,8 +1166,9 @@ document.querySelectorAll(".nav-link").forEach(link => {
   });
 });
 
-
-// INITIALIZE WEBSITE
+// =========================================
+// 19. INITIALIZE WEBSITE
+// =========================================
 
 updateDateLabel();
 displayVerse(getDailyVerse());
@@ -888,5 +1178,7 @@ updateProgress();
 
 $("saveDailyButton").textContent =
   favorites.some(
-    item => item.reference === $("dailyReference").textContent
+    item =>
+      item.reference ===
+      $("dailyReference").textContent
   ) ? "♥" : "♡";

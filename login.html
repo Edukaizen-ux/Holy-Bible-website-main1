@@ -5,9 +5,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#10251b">
+
   <title>Login | Holy Bible Online</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
+
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
 
   <style>
@@ -24,6 +26,7 @@
       padding: 20px;
       font-family: 'DM Sans', sans-serif;
       color: #fff;
+
       background:
         radial-gradient(circle at 20% 20%, #294c36, transparent 40%),
         linear-gradient(135deg, #091810, #183c29, #0b1c13);
@@ -85,10 +88,12 @@
       font-size: 14px;
       font-weight: 700;
       cursor: pointer;
+
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 12px;
+
       transition: .2s;
     }
 
@@ -100,6 +105,7 @@
     .google-button:disabled {
       opacity: .6;
       cursor: wait;
+      transform: none;
     }
 
     .google-button img {
@@ -114,6 +120,10 @@
       line-height: 1.6;
     }
 
+    #message.success {
+      color: #a9e7b8;
+    }
+
     .legal {
       color: #aebbb1;
       font-size: 11px;
@@ -126,11 +136,25 @@
       text-decoration: none;
     }
 
+    .legal a:hover {
+      text-decoration: underline;
+    }
+
     .footer {
       margin-top: 25px;
       color: #aebbb1;
       font-size: 11px;
       letter-spacing: 2px;
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 27px;
+      }
+
+      .login-card {
+        padding: 30px 22px;
+      }
     }
   </style>
 </head>
@@ -156,14 +180,19 @@
         reading the Holy Bible and saving your favorite verses.
       </p>
 
-      <button class="google-button" id="googleSignIn">
+      <button
+        type="button"
+        class="google-button"
+        id="googleSignIn"
+      >
         <img
           src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
-          alt="Google">
+          alt="Google"
+        >
         Continue with Google
       </button>
 
-      <p id="message" role="status"></p>
+      <p id="message" role="status" aria-live="polite"></p>
 
       <p class="legal">
         By continuing, you agree to our
@@ -180,7 +209,11 @@
 
   </main>
 
+
+  <!-- FIREBASE GOOGLE AUTHENTICATION -->
+
   <script type="module">
+
     import { auth } from "./firebase-config.js";
 
     import {
@@ -189,8 +222,14 @@
       onAuthStateChanged
     } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 
+
+    // GET HTML ELEMENTS
+
     const button = document.getElementById("googleSignIn");
     const message = document.getElementById("message");
+
+
+    // GOOGLE AUTHENTICATION PROVIDER
 
     const provider = new GoogleAuthProvider();
 
@@ -198,52 +237,165 @@
       prompt: "select_account"
     });
 
+
+    // DISPLAY MESSAGE
+
+    function showMessage(text, type = "error") {
+
+      message.textContent = text;
+
+      message.className = type === "success" ? "success" : "";
+
+    }
+
+
+    // RESTORE GOOGLE LOGIN BUTTON
+
+    function resetButton() {
+
+      button.disabled = false;
+
+      button.innerHTML = `
+        <img
+          src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+          alt="Google"
+        >
+        Continue with Google
+      `;
+
+    }
+
+
+    // FIREBASE ERROR HANDLER
+
+    function handleFirebaseError(error) {
+
+      console.error("Firebase Authentication Error:", error);
+
+      const errors = {
+
+        "auth/popup-closed-by-user":
+          "You closed the Google login window. Please try again.",
+
+        "auth/popup-blocked":
+          "Your browser blocked the login popup. Please allow popups.",
+
+        "auth/unauthorized-domain":
+          "Your website domain is not authorized. Add localhost to Firebase Authorized Domains.",
+
+        "auth/operation-not-allowed":
+          "Google sign-in is disabled. Enable Google Authentication in Firebase.",
+
+        "auth/invalid-api-key":
+          "Your Firebase API key is invalid. Check firebase-config.js.",
+
+        "auth/network-request-failed":
+          "Network error. Please check your internet connection.",
+
+        "auth/cancelled-popup-request":
+          "Another login request was started. Please try again.",
+
+        "auth/account-exists-with-different-credential":
+          "An account already exists with another sign-in method.",
+
+        "auth/too-many-requests":
+          "Too many login attempts. Please try again later."
+
+      };
+
+      showMessage(
+        errors[error.code] ||
+        `${error.code || "Error"}: ${error.message || "Unknown error"}`
+      );
+
+      resetButton();
+
+    }
+
+
+    // CHECK EXISTING LOGIN SESSION
+
     onAuthStateChanged(auth, (user) => {
+
       if (user) {
+
+        console.log("User already logged in:", user.email);
+
+        showMessage(
+          "You are already logged in. Redirecting...",
+          "success"
+        );
+
         window.location.replace("index.html");
+
       }
+
     });
+
+
+    // GOOGLE LOGIN BUTTON
 
     button.addEventListener("click", async () => {
 
+      if (button.disabled) return;
+
       button.disabled = true;
+
       button.textContent = "Connecting to Google...";
-      message.textContent = "";
+
+      showMessage("Opening Google sign-in...", "success");
+
 
       try {
 
-        await signInWithPopup(auth, provider);
+        // OPEN GOOGLE LOGIN POPUP
+
+        const result = await signInWithPopup(auth, provider);
+
+
+        // GET USER INFORMATION
+
+        const user = result.user;
+
+        console.log("Google Login Successful!");
+
+        console.log("User ID:", user.uid);
+
+        console.log("User Name:", user.displayName);
+
+        console.log("User Email:", user.email);
+
+        console.log("User Photo:", user.photoURL);
+
+
+        // SUCCESS MESSAGE
+
+        showMessage(
+          "Login successful! Redirecting to Holy Bible Online...",
+          "success"
+        );
+
+
+        // REDIRECT TO HOMEPAGE
 
         window.location.replace("index.html");
 
+
       } catch (error) {
 
-        console.error(error);
+        handleFirebaseError(error);
 
-        const errors = {
-          "auth/popup-closed-by-user":
-            "You closed the Google login window.",
-
-          "auth/popup-blocked":
-            "Please allow popups in your browser.",
-
-          "auth/unauthorized-domain":
-            "Your website domain is not authorized in Firebase.",
-
-          "auth/operation-not-allowed":
-            "Please enable Google sign-in in Firebase Authentication."
-        };
-
-        message.textContent =
-          errors[error.code] || error.message;
-
-        button.disabled = false;
-        button.innerHTML = `
-          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
-          Continue with Google
-        `;
       }
+
     });
+
+
+    // CHECK FIREBASE INITIALIZATION
+
+    console.log("Holy Bible Online Login Initialized.");
+
+    console.log("Firebase Authentication Ready:", !!auth);
+
   </script>
 
 </body>
